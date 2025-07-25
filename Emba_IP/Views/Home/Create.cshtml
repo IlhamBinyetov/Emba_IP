@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Yeni IP Əlavə Et";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Yeni IP Əlavə Et</h2>
+
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label class="form-label">IP Ünvanı:</label>
+            <input type="text" name="ipAddress" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-success">Əlavə Et</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary ms-2">Geri</a>
+    </form>
+</div>

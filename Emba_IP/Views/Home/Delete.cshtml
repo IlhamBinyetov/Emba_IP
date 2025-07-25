@@ -1,0 +1,42 @@
+﻿@model Emba_IP.Models.IpModel
+@{
+    ViewData["Title"] = "IP Sil";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-danger">IP Ünvanını Sil</h2>
+
+    @if (Model == null)
+    {
+        <div class="alert alert-danger mt-5">
+            Bu IP artıq mövcud deyil.
+        </div>
+        <a asp-action="Index" class="btn btn-primary mt-3">Geri</a>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            Bu IP-ni silmək istədiyinizə əminsiniz?
+            <br />
+            <strong>@Model.IpAddress</strong>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <p>@error.ErrorMessage</p>
+                }
+            </div>
+        }
+
+        <form asp-action="DeleteConfirmed" method="post">
+            <input type="hidden" name="ip" value="@Model.IpAddress" />
+            <button type="submit" class="btn btn-danger">Sil</button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary ms-2">Geri</a>
+        </form>
+    }
+
+</div>
+

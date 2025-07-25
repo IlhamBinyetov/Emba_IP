@@ -1,0 +1,67 @@
+﻿@model Emba_IP.ViewModels.IpListViewModel
+@{
+    ViewData["Title"] = "IP Siyahısı";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">IP Ünvanları Siyahısı</h2>
+    <form method="get" asp-action="Index" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="searchTerm" value="@Model.SearchTerm" class="form-control" placeholder="Axtarış...">
+            <select name="pageSize" class="form-select" style="max-width: 120px;">
+                @foreach (var size in Model.PageSizeOptions)
+                {
+                    <option value="@size" selected=@(Model.PageSize == size)>@size</option>
+                }
+            </select>
+            <button class="btn btn-primary" type="submit">Axtar</button>
+        </div>
+    </form>
+
+    <a asp-controller="Home" asp-action="Create" class="btn btn-success mb-3">+ Yeni IP Əlavə Et</a>
+
+    @if (!Model.IpList.Any())
+    {
+        <div class="alert alert-info">Hazırda heç bir IP ünvanı yoxdur.</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>№</th>
+                    <th>IP Ünvanı</th>
+                    <th>Əməliyyatlar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.IpList.Count; i++)
+                {
+                    var ip = Model.IpList[i];
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@ip.IpAddress</td>
+                        <td>
+                            <div class="d-flex justify-content-end">
+                                <a asp-controller="Home" asp-action="Edit" class="btn btn-sm btn-primary me-2" asp-route-ip="@ip.IpAddress">Yenilə</a>
+                                <a asp-controller="Home" asp-action="Delete" class="btn btn-sm btn-danger" asp-route-ip="@ip.IpAddress">Sil</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination d-flex justify-content-center">
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        @* <a class="page-link" href="?searchTerm=@Model.SearchTerm&page=@i">@i</a> *@
+                        <a class="page-link" href="?searchTerm=@Model.SearchTerm&page=@i&pageSize=@Model.PageSize">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+</div>

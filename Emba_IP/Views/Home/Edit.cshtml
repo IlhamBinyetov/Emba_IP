@@ -1,0 +1,22 @@
+﻿@model Emba_IP.Models.IpModel
+@{
+    ViewData["Title"] = "IP Yenilə";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">IP Ünvanını Yenilə</h2>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" name="oldIp" value="@Model.IpAddress" />
+
+        <div class="mb-3">
+            <label class="form-label">Yeni IP Ünvanı:</label>
+            <input type="text" name="newIp" class="form-control" value="@Model.IpAddress" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Yenilə</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary ms-2">Geri</a>
+    </form>
+</div>
+
+
