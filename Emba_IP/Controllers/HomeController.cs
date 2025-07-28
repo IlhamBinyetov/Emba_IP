@@ -1,20 +1,17 @@
-﻿using System.Diagnostics;
-using Emba_IP.Models;
+﻿using Emba_IP.Models;
 using Emba_IP.Services;
 using Emba_IP.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Emba_IP.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(IpFileService service) : Controller
     {
-        private readonly IpFileService _service;
+        private readonly IpFileService _service = service;
 
-        public HomeController(IpFileService service)
-        {
-            _service = service;
-        }
-
+        [Authorize]
         public IActionResult Index(string? searchTerm, int page = 1, int pageSize = 20)
         {
             var trimmedSearchTerm = string.IsNullOrWhiteSpace(searchTerm) ? "" : searchTerm.Trim();
@@ -39,7 +36,7 @@ namespace Emba_IP.Controllers
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling(allIps.Count / (double)pageSize),
                 PageSize = pageSize,
-                PageSizeOptions = new List<int> { 20, 50, 100 }
+                PageSizeOptions = [20, 50, 100]
             };
 
             return View(model);

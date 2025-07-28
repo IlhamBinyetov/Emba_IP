@@ -43,12 +43,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "clean",
     pattern: "",
@@ -56,7 +54,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{action}",
-    defaults: new { controller = "Home" });
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
