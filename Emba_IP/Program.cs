@@ -1,4 +1,5 @@
 using Emba_IP.Data;
+using Emba_IP.Extensions;
 using Emba_IP.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
+
+builder.Services.ConfigureIdentityPolicies();
+builder.Services.ConfigureLdapAuthentication(builder.Configuration);
 
 
 builder.Services.ConfigureApplicationCookie(options =>
