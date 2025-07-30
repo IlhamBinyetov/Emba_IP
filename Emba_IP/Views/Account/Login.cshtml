@@ -3,21 +3,21 @@
 <h2>Daxil ol</h2>
 
 <form asp-action="Login" method="post">
-    <div class="mb-3">
+    <div class="form-group">
         <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
+        <input asp-for="Email" class="form-control" placeholder="Email" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
-    <div class="mb-3">
+    <div class="form-group">
         <label asp-for="Password"></label>
-        <input asp-for="Password" class="form-control" />
+        <input asp-for="Password" class="form-control" type="password" placeholder="Şifrə" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
-    <div class="mb-3 form-check">
-        <input asp-for="RememberMe" class="form-check-input" />
-        <label asp-for="RememberMe" class="form-check-label"></label>
+    <div class="form-group">
+        <input asp-for="RememberMe" type="checkbox" />
+        <label asp-for="RememberMe">Məni yadda saxla</label>
     </div>
 
     <button type="submit" class="btn btn-primary">Daxil ol</button>

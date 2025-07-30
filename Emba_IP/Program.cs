@@ -1,5 +1,6 @@
 using Emba_IP.Data;
 using Emba_IP.Extensions;
+using Emba_IP.Models;
 using Emba_IP.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ builder.Services.AddScoped<IpFileService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                             options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
 })
@@ -20,8 +21,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 .AddDefaultTokenProviders();
 
 builder.Services.ConfigureIdentityPolicies();
-builder.Services.ConfigureLdapAuthentication(builder.Configuration);
-
+//builder.Services.ConfigureLdapAuthentication(builder.Configuration);
+//builder.Services.Configure<LdapSettings>(builder.Configuration.GetSection("LdapSettings"));
+//builder.Services.AddScoped<LdapService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

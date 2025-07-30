@@ -5,11 +5,14 @@ namespace Emba_IP.ViewModels
    
         public class LoginViewModel
         {
-            [Required]
-            [EmailAddress]
+            //[Required(ErrorMessage = "İstifadəçi adı boş ola bilməz.")]
+            //public string Username { get; set; }
+
+            [Required(ErrorMessage = "Email boş ola bilməz.")]
+            [EmailAddress(ErrorMessage = "Düzgün email formatı deyil.")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Şifrə boş ola bilməz.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 

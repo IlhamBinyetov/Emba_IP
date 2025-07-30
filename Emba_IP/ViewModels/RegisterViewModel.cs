@@ -16,5 +16,9 @@ namespace Emba_IP.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Şifrələr uyğun gəlmir")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Surname { get; set; }
     }
 }

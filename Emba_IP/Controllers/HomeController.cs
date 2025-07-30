@@ -7,11 +7,12 @@ using System.Diagnostics;
 
 namespace Emba_IP.Controllers
 {
+    [Authorize]
     public class HomeController(IpFileService service) : Controller
     {
         private readonly IpFileService _service = service;
 
-        [Authorize]
+        
         public IActionResult Index(string? searchTerm, int page = 1, int pageSize = 20)
         {
             var trimmedSearchTerm = string.IsNullOrWhiteSpace(searchTerm) ? "" : searchTerm.Trim();
