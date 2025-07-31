@@ -2,26 +2,35 @@
 
 <h2>Daxil ol</h2>
 
-<form asp-action="Login" method="post">
-    <div class="form-group mb-3">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" placeholder="Email" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+<form asp-action="Login" method="post" class="container mt-5">
+
+    <div class="row align-items-center">
+        <!-- Form Sahəsi -->
+        <div class="col-md-6">
+            <div class="form-group mb-3">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" type="password" placeholder="Şifrə" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+            <button type="submit" class="btn btn-primary">Daxil ol</button>
+        </div>
+
+        <!-- Logo Sahəsi -->
+        <div class="col-md-6 text-center">
+            <img src="~/Logo/images.png" alt="Logo" class="img-fluid" style="max-height: 150px;" />
+        </div>
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" class="form-control" type="password" placeholder="Şifrə" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-
-    <div class="form-group mb-1">
-        <input asp-for="RememberMe" type="checkbox" />
-        <label asp-for="RememberMe">Məni yadda saxla</label>
-    </div>
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <button type="submit" class="btn btn-primary">Daxil ol</button>
 </form>
+
 
 @section Scripts {
     @{

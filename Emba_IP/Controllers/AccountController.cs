@@ -78,7 +78,7 @@ namespace Emba_IP.Controllers
             var result = await _signInManager.PasswordSignInAsync(
                 model.Email,         
                 model.Password,
-                model.RememberMe,
+                false,
                 lockoutOnFailure: false);
 
             if (result.Succeeded)

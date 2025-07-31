@@ -43,21 +43,31 @@ namespace Emba_IP.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(string ipAddress)
         {
+            var item = _service.GetAll().FirstOrDefault(x => x.IpAddress == ipAddress);
             if (!string.IsNullOrWhiteSpace(ipAddress))
             {
+                if (item != null)
+                {
+                    ModelState.AddModelError("", "Bu IP sistemde artıq mövcuddur");
+                    return View();
+                }
                 _service.Add(ipAddress.Trim());
             }
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(string ip)
         {
             if (string.IsNullOrEmpty(ip))
@@ -71,6 +81,7 @@ namespace Emba_IP.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(string oldIp, string newIp)
         {
             if (string.IsNullOrWhiteSpace(oldIp) || string.IsNullOrWhiteSpace(newIp))
@@ -95,6 +106,7 @@ namespace Emba_IP.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(string ip)
         {
             if (string.IsNullOrEmpty(ip))

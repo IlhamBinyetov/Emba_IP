@@ -1,12 +1,22 @@
 ﻿@model RegisterViewModel
 
-<h2>Qeydiyyat</h2>
+<h2>Qeydiyyat</h2> 
 
 <form asp-action="Register" method="post">
     <div class="mb-3">
         <label asp-for="Email"></label>
         <input asp-for="Email" class="form-control" />
         <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Surname"></label>
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
@@ -21,6 +31,7 @@
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
 
+    <div asp-validation-summary="All" class="text-danger"></div>
     <button type="submit" class="btn btn-primary">Qeydiyyatdan keç</button>
 </form>
 

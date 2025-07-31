@@ -10,7 +10,7 @@
             <label class="form-label">IP Ünvanı:</label>
             <input type="text" name="ipAddress" class="form-control" required />
         </div>
-
+        <div asp-validation-summary="All" class="text-danger"></div>
         <button type="submit" class="btn btn-success">Əlavə Et</button>
         <a asp-controller="Home" asp-action="Index" class="btn btn-secondary ms-2">Geri</a>
     </form>
