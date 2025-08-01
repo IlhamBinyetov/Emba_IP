@@ -1,6 +1,9 @@
-﻿@model Emba_IP.ViewModels.IpListViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model Emba_IP.ViewModels.IpListViewModel
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "IP Siyahısı";
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <div class="container mt-5">
@@ -17,8 +20,11 @@
             <button class="btn btn-primary" type="submit">Axtar</button>
         </div>
     </form>
-
-    <a asp-controller="Home" asp-action="Create" class="btn btn-success mb-3">+ Yeni IP Əlavə Et</a>
+    @if (user?.IsAdmin == true || user?.IsSuperAdmin == true)
+    {
+        <a asp-controller="Home" asp-action="Create" class="btn btn-success mb-3">+ Yeni IP Əlavə Et</a>
+    }
+    
 
     @if (!Model.IpList.Any())
     {
@@ -31,7 +37,11 @@
                 <tr>
                     <th>№</th>
                     <th>IP Ünvanı</th>
-                    <th>Əməliyyatlar</th>
+                    @if (user?.IsAdmin == true || user?.IsSuperAdmin == true)
+                    {
+                        <th>Əməliyyatlar</th>
+                    }
+                   
                 </tr>
             </thead>
             <tbody>
@@ -41,12 +51,16 @@
                     <tr>
                         <td>@(i + 1)</td>
                         <td>@ip.IpAddress</td>
-                        <td>
-                            <div class="d-flex justify-content-end">
-                                <a asp-controller="Home" asp-action="Edit" class="btn btn-sm btn-primary me-2" asp-route-ip="@ip.IpAddress">Yenilə</a>
-                                <a asp-controller="Home" asp-action="Delete" class="btn btn-sm btn-danger" asp-route-ip="@ip.IpAddress">Sil</a>
-                            </div>
-                        </td>
+                        @if (user?.IsAdmin == true || user?.IsSuperAdmin == true)
+                        {
+                            <td>
+                                <div class="d-flex justify-content-end">
+                                    <a asp-controller="Home" asp-action="Edit" class="btn btn-sm btn-primary me-2" asp-route-ip="@ip.IpAddress">Yenilə</a>
+                                    <a asp-controller="Home" asp-action="Delete" class="btn btn-sm btn-danger" asp-route-ip="@ip.IpAddress">Sil</a>
+                                </div>
+                            </td>
+                        }
+                   
                     </tr>
                 }
             </tbody>

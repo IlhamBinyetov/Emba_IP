@@ -48,9 +48,9 @@ namespace Emba_IP.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    if (!await _roleManager.RoleExistsAsync("User"))
-                        await _roleManager.CreateAsync(new IdentityRole("User"));
-                    await _userManager.AddToRoleAsync(user, "User");
+                    if (!await _roleManager.RoleExistsAsync("Admin"))
+                        await _roleManager.CreateAsync(new IdentityRole("Admin"));
+                    await _userManager.AddToRoleAsync(user, "Admin");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
