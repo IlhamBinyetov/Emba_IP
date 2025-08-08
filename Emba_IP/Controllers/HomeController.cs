@@ -12,7 +12,7 @@ namespace Emba_IP.Controllers
     {
         private readonly IpFileService _service = service;
 
-        
+        //[AllowAnonymous]
         public IActionResult Index(string? searchTerm, int page = 1, int pageSize = 20)
         {
             var trimmedSearchTerm = string.IsNullOrWhiteSpace(searchTerm) ? "" : searchTerm.Trim();

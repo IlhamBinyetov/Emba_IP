@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  web:
+    container_name: emba-ip-production
+    build:
+      context: .
+      dockerfile: Emba_IP/Dockerfile
+    ports:
+      - "5000:8080"
+    volumes:
+      - ./../app/data:/app/data  # SQLite faylları üçün
+      - ./../app/logs:/app/logs  # Log faylları üçün
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/Emba_IP.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
