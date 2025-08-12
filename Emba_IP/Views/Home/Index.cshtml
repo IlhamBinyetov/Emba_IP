@@ -10,7 +10,7 @@
     <h2 class="mb-4">IP Ünvanları Siyahısı</h2>
     <form method="get" asp-action="Index" class="mb-3">
         <div class="input-group">
-            <input type="text" name="searchTerm" value="@Model.SearchTerm" class="form-control" placeholder="Axtarış...">
+            <input type="text" name="searchTerm" value="@Model.SearchTerm" class="form-control" placeholder="Axtarış et...">
             <select name="pageSize" class="form-select" style="max-width: 120px;">
                 @foreach (var size in Model.PageSizeOptions)
                 {
@@ -49,7 +49,7 @@
                 {
                     var ip = Model.IpList[i];
                     <tr>
-                        <td>@(i + 1)</td>
+                        <td>@((Model.CurrentPage - 1) * Model.PageSize + i + 1)</td>
                         <td>@ip.IpAddress</td>
                         @if (user?.IsAdmin == true || user?.IsSuperAdmin == true)
                         {

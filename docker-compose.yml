@@ -9,11 +9,16 @@ services:
     ports:
       - "5000:8080"
     volumes:
-      - ./../app/data:/app/data  # SQLite faylları üçün
-      - ./../app/logs:/app/logs  # Log faylları üçün
+      - ./app/data:/app/data  # SQLite faylları üçün
+      - ./app/logs:/app/logs  # Log faylları üçün
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Data Source=/app/data/Emba_IP.db
+      - IpFilepath=/app/wwwroot/Data/ip_list.txt
+      - SuperAdminSettings__Email=admin@embafinans.az
+      - SuperAdminSettings__UserName=Administrator
+      - SuperAdminSettings__Password=Emba_1234
+      - SuperAdminSettings__Role=SuperAdmin
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]

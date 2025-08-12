@@ -2,9 +2,9 @@
 using Emba_IP.Extensions;
 using Emba_IP.Models;
 using Emba_IP.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +21,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.Configure<SuperAdminSettings>(builder.Configuration.GetSection("SuperAdminSettings"));
 
 //builder.Services.AddOptions<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme)
 //    .Configure<ITicketStore>((options, store) =>
@@ -85,7 +86,13 @@ app.MapControllerRoute(
 
 using (var scope = app.Services.CreateScope())
 {
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.EnsureCreated();
+    var adminSettings = services.GetRequiredService<IOptions<SuperAdminSettings>>().Value;
+
+    await ApplicationDbInitializer.SeedDefaultUserAndRoleAsync(userManager, roleManager,adminSettings);
 }
 app.Run();

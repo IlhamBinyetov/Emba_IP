@@ -36,8 +36,15 @@
                         @if (User.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
-                                <span class="nav-link text-dark">Salam, @userName?.Name</span>
+                                <span class="nav-link text-dark">Salam, @userName?.Name @userName?.SurName</span>
                             </li>
+                            if(@userName?.IsSuperAdmin == true)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Users">İstifadəçilər</a>
+                                </li>
+                            }
+                          
                             <li class="nav-item">
                                 <form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" method="post">
                                     <button type="submit" class="nav-link btn btn-link text-dark">Çıxış</button>

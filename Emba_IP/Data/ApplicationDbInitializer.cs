@@ -6,26 +6,32 @@ namespace Emba_IP.Data
 {
     public class ApplicationDbInitializer
     {
-        private const string DefaultRole = "SuperAdmin";
-        private const string DefaultUserName = "Administrator";
-        private const string DefaultEmail = "superAdmin@emba.com";
-        private const string DefaultPassword = "Emba_123456789";
 
-
-        public static async Task SeedDefaultUserAndRoleAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedDefaultUserAndRoleAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SuperAdminSettings adminSettings)
         {
             IdentityResult roleCreated;
-            if (await roleManager.FindByNameAsync(DefaultRole) == null)
+            if (await roleManager.FindByNameAsync(adminSettings.Role) == null)
             {
-                var defaultRole = new IdentityRole
-                {
-                    Name = DefaultRole
-                };
-                roleCreated = await roleManager.CreateAsync(defaultRole);
+                await roleManager.CreateAsync(new IdentityRole { Name = adminSettings.Role });
             }
-            else
+
+            var user = await userManager.FindByEmailAsync(adminSettings.Email);
+            if (user == null)
             {
-                roleCreated = IdentityResult.Success;
+                user = new ApplicationUser
+                {
+                    Name = "Super",
+                    SurName = "Admin",
+                    UserName = adminSettings.UserName,
+                    Email = adminSettings.Email,
+                    EmailConfirmed = true,
+                    IsSuperAdmin=true
+                };
+
+                await userManager.CreateAsync(user, adminSettings.Password);
+
+                // 3. İstifadəçiyə rolu təyin et
+                await userManager.AddToRoleAsync(user, adminSettings.Role);
             }
         }
 
