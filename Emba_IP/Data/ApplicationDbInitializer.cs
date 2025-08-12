@@ -9,11 +9,20 @@ namespace Emba_IP.Data
 
         public static async Task SeedDefaultUserAndRoleAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SuperAdminSettings adminSettings)
         {
-            IdentityResult roleCreated;
-            if (await roleManager.FindByNameAsync(adminSettings.Role) == null)
+
+            string[] rolesToCreate = new[] { adminSettings.Role, "Admin", "User" };
+            foreach (var roleName in rolesToCreate)
             {
-                await roleManager.CreateAsync(new IdentityRole { Name = adminSettings.Role });
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
             }
+
+            //if (await roleManager.FindByNameAsync(adminSettings.Role) == null)
+            //{
+            //    await roleManager.CreateAsync(new IdentityRole { Name = adminSettings.Role });
+            //}
 
             var user = await userManager.FindByEmailAsync(adminSettings.Email);
             if (user == null)

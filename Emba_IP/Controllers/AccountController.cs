@@ -216,6 +216,14 @@ namespace Emba_IP.Controllers
         [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> EditUser(UserEditViewModel model)
         {
+            
+            if (!ModelState.IsValid)
+            {
+                model.AllRoles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+                return View(model);
+            }
+
+
             var user = await _userManager.FindByIdAsync(model.Id);
             if (user == null)
             {
@@ -231,11 +239,16 @@ namespace Emba_IP.Controllers
             }
 
             var addResult = await _userManager.AddToRoleAsync(user, model.SelectedRole);
+      
             if (!addResult.Succeeded)
             {
                 ModelState.AddModelError("", "Yeni rol təyin edilərkən xəta baş verdi.");
                 return View(model);
             }
+            user.IsAdmin = (model.SelectedRole == "Admin");
+            user.IsSuperAdmin = (model.SelectedRole == "SuperAdmin");
+
+            await _userManager.UpdateAsync(user);
 
             return RedirectToAction("Users");
         }

@@ -34,7 +34,10 @@
                 </select>
                 <span asp-validation-for="SelectedRole" class="text-danger"></span>
             </div>
-
+            @for (int i = 0; i < Model.AllRoles.Count; i++)
+            {
+                <input type="hidden" asp-for="AllRoles[i]" />
+            }
             <div class="form-group">
                 <input type="submit" value="Yenilə" class="btn btn-primary" />
                 <a asp-action="Users" class="btn btn-secondary">Ləğv et</a>
